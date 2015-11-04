@@ -41,10 +41,28 @@
         </md-toolbar>
 
         <md-list>
-            <md-list-item ng-repeat="it in ul.users">
-                <md-button ng-click="ul.selectUser(it)" ng-class="{'selected' : it === ul.selected }">
-                    <md-icon md-svg-icon="{{it.avatar}}" class="avatar"></md-icon>
-                    {{it.name}}
+            <md-button href="#welcome" ng-class="ul.getClass('/welcome')">
+                <md-icon md-svg-icon="/assets/svg/home153.svg" class="avatar"></md-icon>
+                Home
+            </md-button>
+            </md-list-item>
+
+            <md-list-item>
+                <md-button href="#group" ng-class="ul.getClass('/group')">
+                    <md-icon md-svg-icon="/assets/svg/navigation12.svg" class="avatar"></md-icon>
+                    Find Groups
+                </md-button>
+            </md-list-item>
+            <md-list-item>
+                <md-button href="#myRide" ng-class="ul.getClass('/myRide')">
+                    <md-icon md-svg-icon="/assets/svg/right247.svg" class="avatar"></md-icon>
+                    My Rides
+                </md-button>
+            </md-list-item>
+            <md-list-item>
+                <md-button href="#createGroup" ng-class="ul.getClass('/createGroup')">
+                    <md-icon md-svg-icon="/assets/svg/round75.svg" class="avatar"></md-icon>
+                    Create a Group
                 </md-button>
             </md-list-item>
         </md-list>
@@ -69,7 +87,9 @@
             </div>
         </md-toolbar>
 
-        <md-content flex id="content">
+
+
+        <md-content ng-view flex>
             <md-icon md-svg-icon="{{ul.selected.avatar}}" class="avatar"></md-icon>
             <h2>{{ul.selected.name}}</h2>
             <p>{{ul.selected.content}}</p>
@@ -88,13 +108,17 @@
     <script src="https://drrjhlchpvi7e.cloudfront.net/libs/stamplay-js-sdk/1.2.9/stamplay.min.js"></script>
     <script src="./bower_components/angular-stamplay.js"></script>
     <script type="text/javascript" src="./bower_components/angular-material/angular-material.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
 
 
-    <script src="./src/users/Users.js"></script>
+    <script src="./src/app.js"></script>
     <script src="./src/users/UserController.js"></script>
     <script src="./src/users/UserService.js"></script>
 
     <script src="./src/login/LoginController.js"></script>
+    <script src="./src/group/GroupController.js"></script>
+    <script src="./src/myRide/myRideController.js"></script>
+    <script src="./src/create/createGroupController.js"></script>
 
 
 

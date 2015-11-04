@@ -16,7 +16,12 @@
      */
     function LoginController($scope, $stamplay, $mdSidenav, $mdDialog, $mdBottomSheet, $log, $q) {
         var self = this;
-        var user = $stamplay.User().Model;
+        
+        self.user = $stamplay.User().Model;
+        self.user.currentUser()
+            .then(function () {
+            });
+         
         self.showLoginForm = showLoginForm;
         self.showLogoutForm = showLogoutForm;
         self.login = login;
@@ -58,7 +63,7 @@
         }
 
         function login(email, password) {
-            user.login(email, password).then(function () {
+            self.user.login(email, password).then(function () {
                 console.log("successfully logged in!");
                 window.location.href = "/index.html";
             });
@@ -74,15 +79,16 @@
 
             };
             $scope.answer = function (answer) {
-
-                if (answer === "logout") {
-                    user.logout();
-                    console.log("logging out...");
-                    window.location.href = "/index.html";
-                } else {
+                if(answer === "login")
+                {
                     login($scope.email, $scope.password);
                 }
-
+                
+                if (answer === "logout")
+                {
+                    self.user.logout();
+                }
+                
                 $mdDialog.hide(answer);
             };
 

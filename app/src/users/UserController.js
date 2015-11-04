@@ -2,7 +2,7 @@
 
     angular
         .module('JMU')
-        .controller('UserController', ['$scope', '$stamplay',
+        .controller('UserController', ['$scope', '$location', '$stamplay',
           'userService', '$mdSidenav', '$mdBottomSheet', '$log', '$q',
           UserController
        ]);
@@ -14,15 +14,17 @@
      * @param avatarsService
      * @constructor
      */
-    function UserController($scope, $stamplay, userService, $mdSidenav, $mdBottomSheet, $log, $q) {
+    function UserController($scope, $location, $stamplay, userService, $mdSidenav, $mdBottomSheet, $log, $q) {
         var self = this;
 
 
         self.selected = null;
         self.users = [];
-        self.selectUser = selectUser;
+        self.selectEntry = selectEntry;
         self.toggleList = toggleUsersList;
         self.showContactOptions = showContactOptions;
+
+        self.getClass = getClass;
 
         // Get the Stamplay user and safe it
         self.user = $stamplay.User().Model;
@@ -30,8 +32,15 @@
             .then(function () {
                 self.user.get('displayName');
             })
-        
 
+        function getClass(path) {
+            if ($location.path().substr(0, path.length) === path) {
+                return 'selected';
+            } else {
+                return '';
+            }
+        }
+        
         userService
             .loadAllUsers()
             .then(function (users) {
@@ -59,9 +68,8 @@
          * Select the current avatars
          * @param menuId
          */
-        function selectUser(user) {
-            self.selected = angular.isNumber(user) ? $scope.users[user] : user;
-            self.toggleList();
+        function selectEntry(entry) {
+            console.log("select " + entry)
         }
 
         /**

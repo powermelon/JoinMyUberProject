@@ -1,0 +1,27 @@
+<md-dialog aria-label="blubb" ng-cloak>
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Join the group </h2>
+                <span flex></span>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="max-width:800px;max-height:810px; ">
+            <div class="md-dialog-content">
+                This Group wants to go
+                <br/> from: {{group.instance.from}}
+                <br/> to: {{group.instance.to}}
+                <br/>
+            </div>
+        </md-dialog-content>
+        <div class="md-actions" layout="row">
+            <md-button ng-click="answer('join')" target="_blank" md-autofocus>
+                Take a Seat {{user.instance.displayName}}
+            </md-button>
+            <span flex></span>
+            <md-button ng-click="answer('cancel')">
+                cancel
+            </md-button>
+        </div>
+    </form>
+</md-dialog>

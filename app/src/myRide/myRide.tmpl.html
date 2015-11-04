@@ -1,0 +1,27 @@
+<div ng-controller="myRideController as rc">
+    <md-content id="content" style="overflow: scroll;" class="md-padding">
+        <md-card ng-show="rc.user.instance.ride">
+            <img ng-src="{{imagePath}}" class="md-card-image" alt="Map">
+            <md-card-content>
+                <h2 class="md-title">From {{rc.user.instance.ride.from}} to {{rc.user.instance.ride.to}}</h2>
+                <p>
+                    Group ID: {{rc.user.instance.ride._id}}
+                </p>
+            </md-card-content>
+            <div class="md-actions" layout="row" layout-align="end center">
+                <md-button ng-click="rc.leaveGroup()">Leave Group</md-button>
+            </div>
+        </md-card>
+        
+        <md-card ng-show="!rc.user.instance.ride.from">
+            <md-card-content>
+                <p>
+                    No rides...
+                </p>
+
+            </md-card-content>
+        </md-card>
+
+        
+    </md-content>
+</div>
