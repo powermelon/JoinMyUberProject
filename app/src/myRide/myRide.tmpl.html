@@ -1,18 +1,22 @@
 <div ng-controller="myRideController as rc">
     <md-content id="content" style="overflow: scroll;" class="md-padding">
-        <md-card ng-show="rc.user.instance.ride">
+        <!--<md-card ng-show="rc.user.instance.userInGroups">-->
+        <md-card ng-repeat="myRide in rc.user.instance.userInGroups ">
             <img ng-src="{{imagePath}}" class="md-card-image" alt="Map">
             <md-card-content>
-                <h2 class="md-title">From {{rc.user.instance.ride.from}} to {{rc.user.instance.ride.to}}</h2>
+                <h2 class="md-title">From {{myRide.from}} to {{myRide.to}}</h2>
                 <p>
-                    Group ID: {{rc.user.instance.ride._id}}
+                    Group admin: {{myRide.admin_name}}
+                    <br/> myRide.admin_id: {{myRide.admin_id}}
+                    <br/> rc.user.id: {{rc.user.instance.id}}
                 </p>
             </md-card-content>
             <div class="md-actions" layout="row" layout-align="end center">
-                <md-button ng-click="rc.leaveGroup()">Leave Group</md-button>
+                <md-button ng-click="rc.leaveGroup($index)">Leave Group</md-button>
+                <md-button ng-click="" ng-if="myRide.admin_id == rc.user.instance.id">You are admin, order uber!</md-button>
             </div>
         </md-card>
-        
+        <!--
         <md-card ng-show="!rc.user.instance.ride.from">
             <md-card-content>
                 <p>
@@ -21,7 +25,7 @@
 
             </md-card-content>
         </md-card>
+-->
 
-        
     </md-content>
 </div>

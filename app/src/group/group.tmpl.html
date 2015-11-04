@@ -1,19 +1,25 @@
-    <div ng-controller="GroupController as gc">
-        <md-content id="content" style="overflow: scroll;" class="md-padding">
-            <md-card ng-repeat="ride in gc.rideCollection.instance">
-                <img ng-src="{{imagePath}}" class="md-card-image" alt="Map">
-                <md-card-content>
-                    <h2 class="md-title">From {{ride.instance.from}} to {{ride.instance.to}}</h2>
-                    <p>
-                        Group admin:
-                    </p>
-                </md-card-content>
-                <div class="md-actions" layout="row" layout-align="end center">
-                    <md-button ng-click = "gc.showJoinGroupForm($event, ride)">Join</md-button>
-                </div>
-            </md-card>
-            
-            <!--<md-card ng-repeat="ride in gc.rideCollection.instance">
+<div ng-controller="GroupController as gc">
+
+
+    <md-content id="content" style="overflow: scroll;" class="md-padding">
+        <md-card ng-repeat="ride in gc.rideCollection.instance">
+            <img ng-src="{{imagePath}}" class="md-card-image" alt="Map">
+            <md-card-content>
+                <h2 class="md-title">From {{ride.instance.from}} to {{ride.instance.to}}</h2>
+                <p>
+                    Group admin:{{ride.instance.admin_name}}
+                </p>
+                
+                <p ng-if="ride.instance.admin_id == gc.user.instance.id">
+                    YOU ARE GROUP ADMIN!
+                </p>
+            </md-card-content>
+            <div class="md-actions" layout="row" layout-align="end center">
+                <md-button ng-click="gc.showJoinGroupForm($event, ride)">Join</md-button>
+            </div>
+        </md-card>
+
+        <!--<md-card ng-repeat="ride in gc.rideCollection.instance">
                 <img ng-src="{{imagePath}}" class="md-card-image" alt="Map">
                 <md-card-content>
                     <h2 class="md-title">From {{$scope.instance.instance.from}} to {{ride.instance.to}}</h2>
@@ -26,5 +32,5 @@
                 </div>
             </md-card>
 -->
-        </md-content>
-    </div>
+    </md-content>
+</div>

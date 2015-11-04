@@ -6,6 +6,24 @@
             '$mdSidenav', '$mdDialog', '$mdBottomSheet', '$log', '$q',
           GroupController
        ]);
+    /*
+        .factory('StamplayService', function () {
+
+            var getData = {
+                set: function (collection) {
+                    collection.select('to').select('from')
+                        .select('member')
+                        .select('admin_id')
+                        .select('admin_name')
+                        .fetch().then(function () {});
+                    return collection;
+                }
+            }
+
+
+    return getData;
+});
+*/
     /**
      * Main Controller for the Angular Material Starter App
      * @param $scope
@@ -13,14 +31,25 @@
      * @param avatarsService
      * @constructor
      */
+
     function GroupController($scope, $stamplay, $mdSidenav, $mdDialog, $mdBottomSheet, $log, $q) {
+        console.log("gc function called");
+
         var self = this;
+        self.rideCollection = null;
+        var stamplayRide = null;
+
         self.showJoinGroupForm = showJoinGroupForm;
 
-        $scope.$on('$routeChangeSuccess', function () {
-            self.rideCollection = $stamplay.Cobject('ride').Collection;
-            self.rideCollection.select('to').select('from').select('member').select('admin_id').select('admin_name').fetch().then(function () {});
-        });
+        stamplayRide = $stamplay.Cobject('ride').Collection;
+        stamplayRide.select('to')
+            .select('from')
+            .select('member')
+            .select('admin_id')
+            .select('admin_name')
+            .fetch().then(function () {});
+
+        self.rideCollection = stamplayRide;
 
         // Get the Stamplay user and safe it
         self.userId = '  ';
@@ -32,7 +61,6 @@
             })
 
         function showJoinGroupForm(ev, rideInstance) {
-            console.log(rideInstance);
             $mdDialog.show({
                     controller: DialogController,
                     constrollerAs: 'ctrl',
@@ -48,6 +76,8 @@
                 })
                 .then(function (answer) {}, function () {});
         }
+        
+        console.log(self.rideCollection);
 
         function DialogController($scope, $mdDialog, group, user) {
             $scope.group = group;
@@ -62,15 +92,28 @@
             $scope.answer = function (answer) {
                 if (answer == "join") {
 
-                    $scope.group.instance.member.push($scope.user.instance._id)
-                    $scope.group.set('member', $scope.group.instance.member);
-                    $scope.group.save();
-
+                    console.log($scope.group);
                     console.log($scope.user);
-                    $scope.user.set('ride', $scope.group.instance);
-                    $scope.user.save();
 
-                    window.location.href = "/index.html#/myRide";
+                    if (!($scope.user.instance.userInGroups)) {
+                        console.log("user is in no group");
+
+                        var rideInstance = [];
+                        rideInstance[0] = $scope.group.instance;
+
+                        $scope.user.set('userInGroups', rideInstance);
+                        console.log($scope.user.instance.userInGroups);
+
+                        $scope.user.save();
+                    } else {
+                        console.log("user is already in group:");
+                        $scope.user.instance.userInGroups.push($scope.group.instance);
+                        $scope.user.save();
+                        
+                        console.log("ride in userInGroups pushed, new looks like this:");
+                        console.log($scope.user.instance.userInGroups);
+                    }
+
                 }
 
 

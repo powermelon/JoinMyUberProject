@@ -18,19 +18,17 @@
         self.leaveGroup = leaveGroup;
 
         // Get the Stamplay user and safe it
-        self.userId = '  ';
         self.user = $stamplay.User().Model;
         self.user.currentUser()
-            .then(function () {})
+            .then(function () {});
 
         console.log(self.user);
 
-        console.log(self.user.instance);
-
-        function leaveGroup() {
-            console.log("leave that shiat");
-            self.user.set('ride', null);
+        function leaveGroup(index) {            
+            self.user.instance.userInGroups.splice(index,1);        
+            self.user.set('userInGroups', self.user.instance.userInGroups);
             self.user.save();
+            console.log(self.user);
         }
     }
 
