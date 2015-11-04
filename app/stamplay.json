@@ -1,0 +1,12 @@
+{
+  "appId": "joinmyuber",
+  "apiKey": "41ea8d24d8b337a2bc28a86d5d8691007a0fd07f7282699c59578e0f80afea55",
+  "public": "./",
+  "ignore": [
+    "stamplay.json",
+    "**/.*"
+    
+    
+    
+  ]
+}

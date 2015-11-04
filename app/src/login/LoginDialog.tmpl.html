@@ -1,0 +1,30 @@
+<md-dialog aria-label="Mango (Fruit)"  ng-cloak>
+  <form>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Login</h2>
+      <span flex></span>
+      <!--
+        <md-button class="md-icon-button" ng-click="cancel()">
+        <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+      </md-button>
+-->
+    </div>
+  </md-toolbar>
+  <md-dialog-content style="max-width:800px;max-height:810px; ">
+    <div class="md-dialog-content">
+        E-Mail:<input ng-model="email" name="email" type="email"> <br/>
+        Password:<input ng-model="password" name="password" type="password">
+    </div>
+  </md-dialog-content>
+  <div class="md-actions" layout="row">
+    <md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" md-autofocus>
+      Sign up
+    </md-button>
+    <span flex></span>
+    <md-button ng-click="answer('login')" >
+     Login
+    </md-button>
+  </div>
+  </form>
+</md-dialog>
