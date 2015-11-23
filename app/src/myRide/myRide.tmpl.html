@@ -1,31 +1,27 @@
-<div ng-controller="myRideController as rc">
+<div ng-controller="myRideController as rc" class="ng-scope">
     <md-content id="content" style="overflow: scroll;" class="md-padding">
         <!--<md-card ng-show="rc.user.instance.userInGroups">-->
-        <md-card ng-repeat="myRide in rc.user.instance.userInGroups ">
-            <img ng-src="{{imagePath}}" class="md-card-image" alt="Map">
+        <md-card ng-repeat="ride in rc.rides track by $index">
+           
             <md-card-content>
-                <h2 class="md-title">From {{myRide.from}} to {{myRide.to}}</h2>
+                
+                <div ng-bind-html="rc.buildLink(ride)"></div>
+
+                <h2 class="md-title">From {{ride.from}} to {{ride.to}}</h2>
+                <!--<h2 class="md-title">From {{myRide.from}} to {{myRide.to}}</h2>-->
                 <p>
-                    Group admin: {{myRide.admin_name}}
-                    <br/> myRide.admin_id: {{myRide.admin_id}}
-                    <br/> rc.user.id: {{rc.user.instance.id}}
+                    <strong>Members</strong>
+                    <div ng-repeat="m in ride.member track by $index">
+                        {{m.displayName}}
+                    </div>
+
+
                 </p>
             </md-card-content>
             <div class="md-actions" layout="row" layout-align="end center">
-                <md-button ng-click="rc.leaveGroup($index)">Leave Group</md-button>
-                <md-button ng-click="" ng-if="myRide.admin_id == rc.user.instance.id">You are admin, order uber!</md-button>
+                <md-button ng-click="rc.leaveGroup(ride, rc.user.instance.id)">Leave Group</md-button>
+                <md-button ng-click="rc.order($event, ride)" ng-if="ride.admin_id == rc.user.instance.id">You are admin, order uber!</md-button>
             </div>
         </md-card>
-        <!--
-        <md-card ng-show="!rc.user.instance.ride.from">
-            <md-card-content>
-                <p>
-                    No rides...
-                </p>
-
-            </md-card-content>
-        </md-card>
--->
-
     </md-content>
 </div>

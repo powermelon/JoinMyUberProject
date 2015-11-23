@@ -1,36 +1,33 @@
-<div ng-controller="GroupController as gc">
 
-
+<div ng-init="gc.fick='arsch'">
     <md-content id="content" style="overflow: scroll;" class="md-padding">
         <md-card ng-repeat="ride in gc.rideCollection.instance">
-            <img ng-src="{{imagePath}}" class="md-card-image" alt="Map">
+
             <md-card-content>
+                <div ng-bind-html="gc.buildLink(ride)"></div>
+                
                 <h2 class="md-title">From {{ride.instance.from}} to {{ride.instance.to}}</h2>
-                <p>
+                <p ng-hide="ride.instance.admin_id == gc.user.instance.id">
                     Group admin:{{ride.instance.admin_name}}
                 </p>
-                
+
                 <p ng-if="ride.instance.admin_id == gc.user.instance.id">
                     YOU ARE GROUP ADMIN!
                 </p>
+                <!--
+                <div ng-repeat="me in ride.instance.member">
+                    <p ng-if="me.userId==gc.user.instance.id">My ID is here!</p>
+                </div>
+                -->
             </md-card-content>
-            <div class="md-actions" layout="row" layout-align="end center">
-                <md-button ng-click="gc.showJoinGroupForm($event, ride)">Join</md-button>
-            </div>
+            <span ng-repeat="me in ride.instance.member" class="md-actions" layout="row" layout-align="end center">
+                
+           
+            </span>
+
+            <md-button ng-click="gc.showJoinGroupForm($event, $index)" ng-show="showJoinButton(gc.user.instance.id,ride.instance.member)">Join</md-button>
+
         </md-card>
 
-        <!--<md-card ng-repeat="ride in gc.rideCollection.instance">
-                <img ng-src="{{imagePath}}" class="md-card-image" alt="Map">
-                <md-card-content>
-                    <h2 class="md-title">From {{$scope.instance.instance.from}} to {{ride.instance.to}}</h2>
-                    <p>
-                        Group ID: {{ride.instance._id}}
-                    </p>
-                </md-card-content>
-                <div class="md-actions" layout="row" layout-align="end center">
-                    <md-button>Join</md-button>
-                </div>
-            </md-card>
--->
     </md-content>
 </div>

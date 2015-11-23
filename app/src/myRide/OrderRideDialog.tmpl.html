@@ -1,22 +1,21 @@
-<md-dialog aria-label="blubb" ng-cloak>
+<md-dialog aria-label="Order Uber" ng-cloak>
     <form>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>Join the group </h2>
+                <h2>Order the uber</h2>
                 <span flex></span>
             </div>
         </md-toolbar>
         <md-dialog-content style="max-width:800px;max-height:810px; ">
             <div class="md-dialog-content">
-                This Group wants to go
-                <br/> from: {{rideInstance.instance.from}}
-                <br/> to: {{rideInstance.instance.to}}
+                <br/> from: {{groupInstance.from}}
+                <br/> to: {{groupInstance.to}}
                 <br/>
             </div>
         </md-dialog-content>
         <div class="md-actions" layout="row">
             <md-button ng-click="answer('join')" target="_blank" md-autofocus>
-                Take a Seat {{user.instance.displayName}}
+                Order now!
             </md-button>
             <span flex></span>
             <md-button ng-click="answer('cancel')">

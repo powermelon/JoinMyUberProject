@@ -24,7 +24,6 @@
         self.user.currentUser()
             .then(function () {
                 self.rides = [];
-                console.log(self.user.isLogged());
 
                 for (var i in self.user.instance.userInGroups) {
                     var rideID = self.user.instance.userInGroups[i];
@@ -35,36 +34,38 @@
             });
 
         function fetchRide(rideID, myUserInstance) {
-            
-            
-            var rideInstance = $stamplay.Cobject('ride').Model;
-            
-            rideInstance.fetch(rideID).then(function () {
-                
-                var index = self.rides.push(rideInstance.instance) - 1;
+            console.log("call service with:" + rideID);
+            rideService
+                .loadRide(rideID)
+                .then(function (ride) {
+                    var rideInstance = ride;
+                    console.log(rideInstance);
 
-                console.log(rideInstance.instance.member);
-                for (var i in rideInstance.instance.member) {
+                    var index = self.rides.push(rideInstance.instance) - 1;
 
-                    var userID = rideInstance.instance.member[i];
-                    var userInstance = $stamplay.User().Model;
-                    console.log("myUser instance:");
-                    console.log(myUserInstance);
-                    if (userID == myUserInstance.id) {
-                        self.rides[index].member.push(myUserInstance);
-                    } else {
+                    console.log(rideInstance.instance.member);
+                    for (var i in rideInstance.instance.member) {
 
-                        userInstance.fetch(userID).then(function () {
-                            self.rides[index].member.push(userInstance.instance);
+                        var userID = rideInstance.instance.member[i];
+                        var userInstance = $stamplay.User().Model;
+                        console.log("myUser instance:");
+                        console.log(myUserInstance);
+                        if (userID == myUserInstance.id) {
+                            self.rides[index].member.push(myUserInstance);
+                        } else {
 
-                        });
+                            userInstance.fetch(userID).then(function () {
+                                self.rides[index].member.push(userInstance.instance);
+
+                            });
+                        }
+
                     }
 
-                }
-                console.log(self.rides);
+                    return rideInstance;
 
-                return rideInstance;
-            });
+                });
+
             return rideInstance;
         };
 
@@ -72,7 +73,7 @@
             var mapLink = "https://www.google.com/maps/embed/v1/search?q=" + ride.from +
                 "&key=AIzaSyDOXFBYRfYyrboDi8Y5DJQff3gLh8mgjbY";
             var iFrame = "<iframe width='350' height='200' style='float:left; padding-right:20px;'  frameborder='0' style='border:0' src='" + mapLink + "' allowfullscreen />";
-         
+            console.log("built frame");
             return $sce.trustAsHtml(iFrame);
 
         };

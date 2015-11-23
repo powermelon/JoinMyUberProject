@@ -3,39 +3,23 @@
     angular
         .module('JMU')
         .controller('LoginController', ['$scope', '$stamplay',
-            '$mdSidenav', '$mdDialog', '$mdBottomSheet', '$log', '$q',
+            '$mdSidenav', '$mdDialog', '$mdToast', '$mdBottomSheet', '$log', '$q', 'myUserService',
           LoginController
        ]);
 
-    /**
-     * Main Controller for the Angular Material Starter App
-     * @param $scope
-     * @param $mdSidenav
-     * @param avatarsService
-     * @constructor
-     */
-    function LoginController($scope, $stamplay, $mdSidenav, $mdDialog, $mdBottomSheet, $log, $q) {
+    function LoginController($scope, $stamplay, $mdSidenav, $mdDialog, $mdToast, $mdBottomSheet, $log, $q, myUserService) {
         var self = this;
-        
-        self.user = $stamplay.User().Model;
-        self.user.currentUser()
-            .then(function () {
-            });
-         
+
+        self.user = myUserService.getUser()
+
+
+        self.myUser;
         self.showLoginForm = showLoginForm;
         self.showLogoutForm = showLogoutForm;
         self.login = login;
 
         $scope.status = '  ';
 
-        // *********************************
-        // Internal methods
-        // *********************************
-
-        /**
-         * Select the current avatars
-         * @param event
-         */
         function showLoginForm(ev) {
             $mdDialog.show({
                     controller: DialogController,
@@ -48,7 +32,7 @@
                 })
                 .then(function (answer) {}, function () {});
         }
-        
+
         function showLogoutForm(ev) {
             $mdDialog.show({
                     controller: DialogController,
@@ -63,12 +47,41 @@
         }
 
         function login(email, password) {
+
+            var user = myUserService.loginUser(email, password);
+
+            if (user.instance) {
+                $mdToast.show($mdToast.simple()
+                    .content('Welcome to JMU')
+                    .position(getToastPosition())
+                    .hideDelay(3000)
+                );
+            } else {
+                $mdToast.show($mdToast.simple()
+                    .content("couldn't log you in, try again")
+                    .position(getToastPosition())
+                    .hideDelay(3000)
+                );
+            }
+            /*
             self.user.login(email, password).then(function () {
                 console.log("successfully logged in!");
-                window.location.href = "/index.html";
+                $mdToast.show($mdToast.simple()
+                    .content('Welcome to JMU - ' + self.user.instance.displayName)
+                    .position(getToastPosition())
+                    .hideDelay(3000)
+                );
+                
+            }, function (err) {
+                console.log("nope");
+                $mdToast.show($mdToast.simple()
+                    .content("couldn't log you in, try again")
+                    .position(getToastPosition())
+                    .hideDelay(3000)
+                );
             });
+            */
         }
-
 
         function DialogController($scope, $mdDialog) {
             $scope.hide = function () {
@@ -79,28 +92,56 @@
 
             };
             $scope.answer = function (answer) {
-                if(answer === "login")
-                {
-                    login($scope.email, $scope.password);
+                if (answer === "login") {
+                    if ($scope.email && $scope.password) {
+                        login($scope.email, $scope.password);
+                        $mdDialog.hide(answer);
+                    }
                 }
-                
-                if (answer === "logout")
-                {
+
+                if (answer === "logout") {
+
+                    $mdToast.show(
+                        $mdToast.simple()
+                        .content('See you soon! - ' + self.user.instance.displayName)
+                        .position(getToastPosition())
+                        .hideDelay(3000)
+                    );
                     self.user.logout();
                 }
-                
-                $mdDialog.hide(answer);
+
             };
 
         }
 
+        //SHOW 
+        var last = {
+            bottom: false,
+            top: true,
+            left: false,
+            right: true
+        };
+
+        self.toastPosition = angular.extend({}, last);
+
+        function getToastPosition() {
+            sanitizePosition();
+            return Object.keys(self.toastPosition)
+                .filter(function (pos) {
+                    return self.toastPosition[pos];
+                })
+                .join(' ');
+        };
+
+        function sanitizePosition() {
+            var current = self.toastPosition;
+            if (current.bottom && last.top) current.top = false;
+            if (current.top && last.bottom) current.bottom = false;
+            if (current.right && last.left) current.left = false;
+            if (current.left && last.right) current.right = false;
+            last = angular.extend({}, current);
+        }
+
     }
-
-
-
-
-
-
-
 
 })();

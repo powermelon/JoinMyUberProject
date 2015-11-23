@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Angular Material - Starter App</title>
+    <title>JoinMyUber</title>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +11,7 @@
 
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
     <link rel="stylesheet" href="./bower_components/angular-material/angular-material.min.css" />
-    <link rel="stylesheet" href="assets/app.css" />
+    <link rel="stylesheet" href="./assets/app.css" />
 
 
 
@@ -32,7 +32,9 @@
 
 </head>
 
-<body ng-app="starterApp" layout="row" ng-controller="UserController as ul" ng-cloak>
+<!--<body ng-app="starterApp" layout="row" ng-controller="UserController as ul" ng-cloak>-->
+
+<body ng-app="starterApp" layout="row" ng-controller="LoginController as lc" ng-cloak>
 
     <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
 
@@ -47,8 +49,8 @@
             </md-button>
             </md-list-item>
 
-            <md-list-item>
-                <md-button href="#group" ng-class="ul.getClass('/group')">
+            <md-list-item ng-controller="GroupController as gc">
+                <md-button ng-click="gc.loadRides()" href="#group" ng-class="ul.getClass('/group')">
                     <md-icon md-svg-icon="/assets/svg/navigation12.svg" class="avatar"></md-icon>
                     Find Groups
                 </md-button>
@@ -77,11 +79,11 @@
                 <md-icon md-svg-icon="menu"></md-icon>
             </md-button>
             <h1>JOIN MY UBER</h1>
-            <div ng-controller="LoginController as lc" class="dialog-demo-content" layout="row" layout-wrap layout-margin>
-                <md-button ng-show="ul.user.instance.displayName" class="md-primary md-raised" ng-click="lc.showLogoutForm($event)" flex-sm="100" flex-md="100" flex-gt-md="auto">
-                    Hello {{ul.user.instance.displayName}}
+            <div class="dialog-demo-content" layout="row" layout-wrap layout-margin>
+                <md-button ng-show="lc.user.instance.displayName" class="md-primary md-raised" ng-click="lc.showLogoutForm($event)" flex-sm="100" flex-md="100" flex-gt-md="auto">
+                    Hello {{lc.user.instance.displayName}}
                 </md-button>
-                <md-button ng-hide="ul.user.instance.displayName" class="md-primary md-raised" ng-click="lc.showLoginForm($event)" flex-sm="100" flex-md="100" flex-gt-md="auto">
+                <md-button ng-hide="lc.user.instance.displayName" class="md-primary md-raised" ng-click="lc.showLoginForm($event)" flex-sm="100" flex-md="100" flex-gt-md="auto">
                     Login
                 </md-button>
             </div>
@@ -112,13 +114,18 @@
 
 
     <script src="./src/app.js"></script>
-    <script src="./src/users/UserController.js"></script>
-    <script src="./src/users/UserService.js"></script>
+
 
     <script src="./src/login/LoginController.js"></script>
+    <script src="./src/login/MyUserService.js"></script>
+
     <script src="./src/group/GroupController.js"></script>
+    <script src="./src/group/RideService.js"></script>
+    
+    
     <script src="./src/myRide/myRideController.js"></script>
     <script src="./src/create/createGroupController.js"></script>
+    <script src="./src/signUp/SignUpController.js"></script>
 
 
 
@@ -137,10 +144,13 @@
                     .icon("phone", "./assets/svg/phone.svg", 512);
 
                 $mdThemingProvider.theme('default')
-                    .primaryPalette('brown')
+                    .primaryPalette('green')
                     .accentPalette('red');
 
             });
+    </script>
+    <script type="text/javascript">
+         window.location.href = "#welcome"
     </script>
 
 </body>
